@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+
+    dmo-nginx:
+        container_name: dmo-nginx
+        image: dmo/nginx
+        build:
+            context: ./
+            dockerfile: docker/Dockerfile.nginx
+        volumes:
+            - ./:/var/www
+            - ./docker/logs/nginx:/var/log/nginx/
+        ports:
+            - "8888:80"
+        depends_on:
+            - dmo-php-fpm
+        networks:
+            - backend
+
+    dmo-php-fpm:
+        container_name: dmo-php-fpm
+        build:
+            context: ./
+            dockerfile: docker/Dockerfile.php
+        image: dmo/php-fpm
+        volumes:
+            - ./:/var/www
+        ports:
+            - "9001:9000"
+        expose:
+            - "9000"
+        entrypoint:
+            - /docker-entrypoint.sh
+        command:
+            - "php-fpm"
+        networks:
+            - backend
+
+    dmo-mongodb:
+        container_name: dmo-mongodb
+        image: mongo:3.4.3
+        ports:
+            - "27017:27017"
+        networks:
+            - backend
+
+networks:
+  backend:
+    driver: bridge
