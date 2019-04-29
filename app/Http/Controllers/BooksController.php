@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Transformers\V1\BooksTransformer;
 use Business\Services\Books\BooksServiceInterface;
+use Illuminate\Http\Response as IlluminateResponse;
 
 /**
  * Class BooksController
@@ -46,7 +47,8 @@ class BooksController extends Controller
         $creationResponse = $this->booksService->createBook($data);
 
         if (!is_array($creationResponse)) {
-            return $this->response->withItem($creationResponse, new BooksTransformer());
+            return $this->response->setStatusCode(IlluminateResponse::HTTP_CREATED)
+                ->withItem($creationResponse, new BooksTransformer());
 
         }
 
@@ -62,7 +64,8 @@ class BooksController extends Controller
     {
         $listResponse = $this->booksService->listBooks();
 
-        return $this->response->withCollection($listResponse, new BooksTransformer());
+        return $this->response->setStatusCode(IlluminateResponse::HTTP_OK)
+            ->withCollection($listResponse, new BooksTransformer());
     }
 
     /**
@@ -77,7 +80,8 @@ class BooksController extends Controller
         $response = $this->booksService->getBook($id);
 
         if (!is_array($response)) {
-            return $this->response->withItem($response, new BooksTransformer());
+            return $this->response->setStatusCode(IlluminateResponse::HTTP_OK)
+                ->withItem($response, new BooksTransformer());
         }
 
         return $this->response->errorWrongArgs($response);
@@ -104,7 +108,8 @@ class BooksController extends Controller
         $updateResponse = $this->booksService->updateBook($id, $data);
 
         if (!is_array($updateResponse)) {
-            return $this->response->withItem($updateResponse, new BooksTransformer());
+            return $this->response->setStatusCode(IlluminateResponse::HTTP_OK)
+                ->withItem($updateResponse, new BooksTransformer());
         }
 
         return $this->response->errorWrongArgs($updateResponse);
@@ -122,7 +127,8 @@ class BooksController extends Controller
         $response = $this->booksService->deleteBook($id);
 
         if (!is_array($response)) {
-            return $this->response->withArray([
+            return $this->response->setStatusCode(IlluminateResponse::HTTP_OK)
+                ->withArray([
                 'status' => 'OK'
             ]);
         }

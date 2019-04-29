@@ -29,7 +29,7 @@ class BooksDeletionApiTest extends TestCase
         $data['author'] = 'author';
 
         $response = $this->call('POST', 'v1/books', $data);
-        $this->assertEquals(IlluminateResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(IlluminateResponse::HTTP_CREATED, $response->getStatusCode());
         $created = json_decode($response->getContent())->data;
 
         $response = $this->call('DELETE', 'v1/books/' . $created->id, $data);
@@ -44,7 +44,7 @@ class BooksDeletionApiTest extends TestCase
         $data['author'] = 'author';
 
         $response = $this->call('POST', 'v1/books', $data);
-        $this->assertEquals(IlluminateResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(IlluminateResponse::HTTP_CREATED, $response->getStatusCode());
         $created = json_decode($response->getContent())->data;
 
         $response = $this->call('DELETE', 'v1/books/' . $created->id, $data);

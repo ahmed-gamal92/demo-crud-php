@@ -23,7 +23,7 @@ class BooksUpdateApiTest extends TestCase
 
         $response = $this->call('POST', 'v1/books', $data);
 
-        $this->assertEquals(IlluminateResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(IlluminateResponse::HTTP_CREATED, $response->getStatusCode());
 
         $created = json_decode($response->getContent())->data;
 
@@ -52,7 +52,7 @@ class BooksUpdateApiTest extends TestCase
 
         $response = $this->call('POST', 'v1/books', $data);
 
-        $this->assertEquals(IlluminateResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(IlluminateResponse::HTTP_CREATED, $response->getStatusCode());
 
         $created = json_decode($response->getContent())->data;
 

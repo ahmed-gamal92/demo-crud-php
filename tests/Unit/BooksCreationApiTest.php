@@ -23,7 +23,7 @@ class BooksCreationApiTest extends TestCase
 
         $response = $this->call('POST', 'v1/books', $data);
 
-        $this->assertEquals(IlluminateResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(IlluminateResponse::HTTP_CREATED, $response->getStatusCode());
 
         $created = json_decode($response->getContent())->data;
         $this->assertEquals($data['name'], $created->name);
@@ -64,7 +64,7 @@ class BooksCreationApiTest extends TestCase
         $data['author'] = 'author';
 
         $response = $this->call('POST', 'v1/books', $data);
-        $this->assertEquals(IlluminateResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(IlluminateResponse::HTTP_CREATED, $response->getStatusCode());
 
         $response = $this->call('POST', 'v1/books', $data);
         $this->assertEquals(IlluminateResponse::HTTP_BAD_REQUEST, $response->getStatusCode());
